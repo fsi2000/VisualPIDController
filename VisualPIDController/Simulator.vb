@@ -2,7 +2,7 @@
 
 	Public Property Value As Double
 
-	Public Property ValueLimit As Boolean
+	Public Property ValueLimitEnable As Boolean
 	Public Property ValueMin As Double     'TODO: Limit
 	Public Property ValueMax As Double     'TODO: Limit
 
@@ -18,7 +18,7 @@
 		Me.Value = 0
 		Me.ControlValueGain = 1.0
 
-		Me.ValueLimit = False
+		Me.ValueLimitEnable = False
 		Me.ValueMin = -1000
 		Me.ValueMax = +1000
 
@@ -33,7 +33,7 @@
 
 	Public Sub New(value As Double, minValue As Double, maxValue As Double)
 		Me.New(value)
-		Me.ValueLimit = True
+		Me.ValueLimitEnable = True
 		Me.ValueMin = minValue
 		Me.ValueMax = maxValue
 	End Sub
@@ -51,7 +51,7 @@
 
 		result = Me.Value + (cv * Me.ControlValueGain)
 
-		If Me.ValueLimit Then
+		If Me.ValueLimitEnable Then
 			If result < Me.ValueMin Then result = Me.ValueMin
 			If result > Me.ValueMax Then result = Me.ValueMax
 		End If
