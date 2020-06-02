@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.VisualPIDController.frmPIDMain
+            Me.MainForm = Global.VisualPIDController.frmPIDMainNew
         End Sub
     End Class
 End Namespace

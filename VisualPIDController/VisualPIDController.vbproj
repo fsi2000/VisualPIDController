@@ -79,6 +79,12 @@
       <DependentUpon>frmPIDMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmPIDMainNew.Designer.vb">
+      <DependentUpon>frmPIDMainNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPIDMainNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -95,10 +101,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="PIDControler.vb" />
+    <Compile Include="Simulator.vb" />
+    <Compile Include="StopwatchTimer.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmPIDMain.resx">
       <DependentUpon>frmPIDMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPIDMainNew.resx">
+      <DependentUpon>frmPIDMainNew.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

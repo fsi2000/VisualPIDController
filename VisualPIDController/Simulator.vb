@@ -1,66 +1,81 @@
 ﻿Public Class Simulator
-
-	Public Property Value As Double
-
-	Public Property ValueLimitEnable As Boolean
-	Public Property ValueMin As Double     'TODO: Limit
-	Public Property ValueMax As Double     'TODO: Limit
-
-	Public Property Threshold As Boolean
-	Public Property ThresholdValue As Double     'TODO: Limit
-
+	Public Property ProcessValue As Double
 	Public Property ControlValue As Double
-	Public Property ControlValueGain As Double
 
+	Public Property Gain As Double
 
+	Public Property Interval As Double
+
+	Public Property ProcessValueLimitEnable As Boolean
+	Public Property ProcessValueMin As Double
+	Public Property ProcessValueMax As Double
+
+	Public Property ThresholdEnable As Boolean
+	Public Property ThresholdValue As Double
+
+	Private swt As StopwatchTimer
 
 	Public Sub New()
-		Me.Value = 0
-		Me.ControlValueGain = 1.0
+		Me.ProcessValue = 0.0
+		Me.ControlValue = 0.0
 
-		Me.ValueLimitEnable = False
-		Me.ValueMin = -1000
-		Me.ValueMax = +1000
+		Me.Interval = 1.0
+		Me.Gain = 1.0
 
-		Me.Threshold = False
-		Me.ThresholdValue = 0
+		Me.ProcessValueLimitEnable = False
+		Me.ProcessValueMin = -128.0
+		Me.ProcessValueMax = +128.0
+
+		Me.ThresholdEnable = False
+		Me.ThresholdValue = 0.0
+
+		Me.swt = New StopwatchTimer(StopwatchTimer.TimerResolution.ms)
 	End Sub
 
-	Public Sub New(value As Double)
+	Public Sub New(ProcessValue As Double)
 		Me.New()
-		Me.Value = value
+		Me.ProcessValue = ProcessValue
 	End Sub
 
-	Public Sub New(value As Double, minValue As Double, maxValue As Double)
-		Me.New(value)
-		Me.ValueLimitEnable = True
-		Me.ValueMin = minValue
-		Me.ValueMax = maxValue
+	Public Sub New(ProcessValue As Double, Threshold As Double)
+		Me.New(ProcessValue)
+		Me.ThresholdEnable = True
+		Me.ThresholdValue = Threshold
 	End Sub
 
-	'TODO: Use elapsed time to remove timing effects
+	Public Sub New(ProcessValue As Double, ProcessValueMin As Double, ProcessValueMax As Double)
+		Me.New(ProcessValue)
+		Me.ProcessValueLimitEnable = True
+		Me.ProcessValueMin = ProcessValueMin
+		Me.ProcessValueMax = ProcessValueMax
+	End Sub
+
+	Public Sub UpdateInterval()
+		Me.Interval = (swt.TicksPerSecond / swt.ElapsedTime)
+	End Sub
+
 	Public Sub Calculate()
 		Dim cv As Double
-		Dim result As Double
+		Dim pv As Double
 
 		cv = Me.ControlValue
 
-		If Threshold Then
-			If Math.Abs(cv) < Me.ThresholdValue Then cv = 0
+		If Me.ThresholdEnable Then
+			If Math.Abs(cv) < Me.ThresholdValue Then cv = 0.0
 		End If
 
-		result = Me.Value + (cv * Me.ControlValueGain)
+		pv = Me.ProcessValue + (cv * Me.Gain / Me.Interval)
 
-		If Me.ValueLimitEnable Then
-			If result < Me.ValueMin Then result = Me.ValueMin
-			If result > Me.ValueMax Then result = Me.ValueMax
+		If Me.ProcessValueLimitEnable Then
+			If pv < Me.ProcessValueMin Then pv = Me.ProcessValueMin
+			If pv > Me.ProcessValueMax Then pv = Me.ProcessValueMax
 		End If
 
-		Me.Value = result
+		Me.ProcessValue = pv
 	End Sub
 
-	Public Sub Calculate(controlvalue As Double)
-		Me.ControlValue = controlvalue
+	Public Sub Calculate(ControlValue As Double)
+		Me.ControlValue = ControlValue
 		Me.Calculate()
 	End Sub
 End Class
