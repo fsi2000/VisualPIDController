@@ -2,13 +2,13 @@
 	Private sim As Simulator
 	Private pid As PIDControler
 
-	Private Const factorP As Double = 1000
-	Private Const factorI As Double = 1000
-	Private Const factorD As Double = 1000
+	Private Const factorP As Double = 2500
+	Private Const factorI As Double = 8000
+	Private Const factorD As Double = 2500
 	Private Const factorPV As Double = 10
 	Private Const factorCV As Double = 100
 	Private Const factorSP As Double = 10
-	Private Const factorGain As Double = 100
+	Private Const factorGain As Double = 250
 
 	Private Sub frmPIDMainNew_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		sim = New Simulator()
@@ -16,14 +16,15 @@
 		sim.ProcessValueMin = -100.0
 		sim.ProcessValueMax = +100.0
 
+		sim.Gain = 1.0
+
+		sim.ThresholdEnable = True
+		sim.ThresholdValue = 5
+
 		pid = New PIDControler()
 		pid.ControlValueLimitEnable = True
 		pid.ControlValueMin = -1000
 		pid.ControlValueMax = +1000
-
-
-		tbGain.Value = 5 * factorGain
-		tbGain_Scroll(sender, e)
 
 		UpdateParametersPID()
 		UpdateParametersSimulation()
