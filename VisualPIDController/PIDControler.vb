@@ -9,17 +9,17 @@
 	Public Property Interval As Double
 
 	Public Property AntiWindUpEnable As Boolean
-	Public Property AntiWindUpMin As Boolean
-	Public Property AntiWindUpMax As Boolean
+	Public Property AntiWindUpMin As Double
+	Public Property AntiWindUpMax As Double
 
 	Public Property ControlValueLimitEnable As Boolean
 	Public Property ControlValueMin As Double
 	Public Property ControlValueMax As Double
 
-	Private mP As Double
-	Private mI As Double
-	Private mD As Double
-	Private mPLast As Double
+	Public Property mP As Double
+	Public Property mI As Double
+	Public Property mD As Double
+	Public Property mPLast As Double
 
 	Private swt As StopwatchTimer
 
@@ -42,7 +42,7 @@
 	End Sub
 
 	Public Sub UpdateInterval()
-		Me.Interval = (swt.TicksPerSecond / swt.ElapsedTime)
+		Me.Interval = swt.ElapsedTime / swt.TicksPerSecond
 	End Sub
 
 	Public Sub Calculate()
