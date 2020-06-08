@@ -15,7 +15,6 @@
 	End Sub
 
 	Public Sub New(Resolution As TimerResolution)
-		Me.New()
 		Me.Resolution = Resolution
 		Initialize()
 	End Sub
@@ -27,12 +26,7 @@
 	Public Function Timestamp() As Long
 		Dim result As Long
 
-		Select Case Me.Resolution
-			Case TimerResolution.ms
-				result = System.Diagnostics.Stopwatch.GetTimestamp / System.Diagnostics.Stopwatch.Frequency * 1000
-			Case TimerResolution.ns
-				result = System.Diagnostics.Stopwatch.GetTimestamp / System.Diagnostics.Stopwatch.Frequency
-		End Select
+		result = System.Diagnostics.Stopwatch.GetTimestamp / System.Diagnostics.Stopwatch.Frequency * Me.TicksPerSecond
 
 		Return result
 	End Function
