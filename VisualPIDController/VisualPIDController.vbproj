@@ -72,17 +72,10 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmPIDMain.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frmPIDMain.Designer.vb">
       <DependentUpon>frmPIDMain.vb</DependentUpon>
-      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPIDMainNew.Designer.vb">
-      <DependentUpon>frmPIDMainNew.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmPIDMainNew.vb">
+    <Compile Include="frmPIDMain.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -108,9 +101,6 @@
   <ItemGroup>
     <EmbeddedResource Include="frmPIDMain.resx">
       <DependentUpon>frmPIDMain.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmPIDMainNew.resx">
-      <DependentUpon>frmPIDMainNew.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

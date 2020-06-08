@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="P" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">500</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="I" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
@@ -12,7 +12,16 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="CV" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">1000</Value>
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PV" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="SP" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Gain" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -56,7 +56,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("500")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
         Public Property P() As Double
             Get
                 Return CType(Me("P"),Double)
@@ -92,13 +92,49 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("1000")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
         Public Property CV() As Double
             Get
                 Return CType(Me("CV"),Double)
             End Get
             Set
                 Me("CV") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property PV() As Double
+            Get
+                Return CType(Me("PV"),Double)
+            End Get
+            Set
+                Me("PV") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property SP() As Double
+            Get
+                Return CType(Me("SP"),Double)
+            End Get
+            Set
+                Me("SP") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property Gain() As Double
+            Get
+                Return CType(Me("Gain"),Double)
+            End Get
+            Set
+                Me("Gain") = value
             End Set
         End Property
     End Class
