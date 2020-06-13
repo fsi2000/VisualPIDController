@@ -137,6 +137,18 @@ Namespace My
                 Me("Gain") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property AntiWindUp() As Boolean
+            Get
+                Return CType(Me("AntiWindUp"),Boolean)
+            End Get
+            Set
+                Me("AntiWindUp") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
