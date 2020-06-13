@@ -45,6 +45,12 @@
 		Me.Interval = swt.ElapsedTime / swt.TicksPerSecond
 	End Sub
 
+	Public Sub Reset(resetP As Boolean, resetI As Boolean, resetD As Boolean)
+		If resetP Then Me.mPLast = Me.mP
+		If resetI Then Me.mI = 0
+		If resetD Then Me.mD = 0
+	End Sub
+
 	Public Sub Calculate()
 		Me.mP = Me.SetPointValue - Me.ProcessValue
 
