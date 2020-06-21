@@ -23,9 +23,9 @@
 	End Sub
 
 	Private Sub SaveSettings()
-		My.Settings.P = pid.Kp
-		My.Settings.I = pid.Ki
-		My.Settings.D = pid.Kd
+		My.Settings.P = pid.kP
+		My.Settings.I = pid.kI
+		My.Settings.D = pid.kD
 		My.Settings.CV = sim.ControlValue
 		My.Settings.SP = pid.SetPointValue
 		My.Settings.PV = sim.ProcessValue
@@ -34,7 +34,7 @@
 		My.Settings.AntiWindUp = pid.AntiWindUpEnable
 	End Sub
 
-	Private Sub InitFactors()
+	Private Sub CalculateFactors()
 		factorP = tbP.Maximum / 5
 		factorI = tbI.Maximum / 5
 		factorD = tbD.Maximum / 2
@@ -56,7 +56,7 @@
 
 	Private Sub InitPID()
 		pid = New PIDControler()
-		pid.ControlValueLimitEnable = True
+		pid.ControlValueLimitEnable = False
 		pid.ControlValueMin = -1000
 		pid.ControlValueMax = +1000
 
@@ -66,7 +66,7 @@
 	End Sub
 
 	Private Sub frmPIDMainNew_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-		InitFactors()
+		CalculateFactors()
 
 		InitSimulator()
 
@@ -77,7 +77,7 @@
 	Private Sub tmrSimulation_Tick(sender As Object, e As EventArgs) Handles tmrSimulation.Tick
 		sim.UpdateInterval()
 		sim.Calculate()
-		tbPV.Value = (sim.ProcessValue * factorPV)
+		tbPV.Value = LimitValueInt(CInt(sim.ProcessValue * factorPV), tbPV.Minimum, tbPV.Maximum)
 		UpdateTextSimulation()
 	End Sub
 
@@ -85,7 +85,7 @@
 		pid.ProcessValue = sim.ProcessValue
 		pid.UpdateInterval()
 		pid.Calculate()
-		tbCV.Value = CInt(pid.ControlValue)
+		tbCV.Value = LimitValueInt(CInt(pid.ControlValue), tbCV.Minimum, tbCV.Maximum)
 
 		sim.ControlValue = pid.ControlValue
 
@@ -94,9 +94,9 @@
 	End Sub
 
 	Private Sub UpdateTextPID()
-		lblP.Text = "P= " + pid.Kp.ToString("0.000")
-		lblI.Text = "I= " + pid.Ki.ToString("0.000")
-		lblD.Text = "D= " + pid.Kd.ToString("0.000")
+		lblP.Text = "kP= " + pid.kP.ToString("0.000")
+		lblI.Text = "kI= " + pid.kI.ToString("0.000")
+		lblD.Text = "kD= " + pid.kD.ToString("0.000")
 	End Sub
 
 	Private Sub UpdateTextSimulation()
@@ -106,36 +106,39 @@
 		lblGain.Text = "GAIN= " + sim.Gain.ToString("0.00")
 	End Sub
 
+	Private Sub UpdateParametersPIDInternals()
+		pbP.Value = GetProgressbarValue(pid.mP, -100, +100, pbP.Maximum)
+		pbI.Value = GetProgressbarValue(pid.mI, -100, +100, pbI.Maximum)
+		pbD.Value = GetProgressbarValue(pid.mD, -100, +100, pbD.Maximum)
+
+		lblMP.Text = "mP= " + pid.mP.ToString("0.000")
+		lblMI.Text = "mI= " + pid.mI.ToString("0.000")
+		lblMD.Text = "mD= " + pid.mD.ToString("0.000")
+	End Sub
+
 	Private Function LimitValueInt(value As Integer, min As Integer, max As Integer) As Integer
 		Dim result As Integer
+
 		result = value
 		If result < min Then result = min
 		If result > max Then result = max
 		Return result
 	End Function
 
-	Private Function GetProgressbarValue(value As Double, minmax As Integer, range As Integer) As Double
+	Private Function GetProgressbarValue(value As Integer, min As Integer, max As Integer, range As Integer) As Integer
 		Dim result As Integer
 
-		result = value
-		If result < (minmax * -1) Then result = (minmax * -1)
-		If result > (minmax * +1) Then result = (minmax * +1)
+		result = LimitValueInt(value, min, max)
 
-		result = result * (range / minmax)
+		result = result * (range / max)
 		result = result / 2
 		result = result + (range / 2)
 
 		Return result
 	End Function
 
-	Private Sub UpdateParametersPIDInternals()
-		pbP.Value = GetProgressbarValue(pid.mP, 100, pbP.Maximum)
-		pbI.Value = GetProgressbarValue(pid.mI, 100, pbI.Maximum)
-		pbD.Value = GetProgressbarValue(pid.mD, 100, pbD.Maximum)
-	End Sub
-
 	Private Sub tbP_ValueChanged(sender As Object, e As EventArgs) Handles tbP.ValueChanged
-		pid.Kp = tbP.Value / factorP
+		pid.kP = tbP.Value / factorP
 		UpdateTextPID()
 	End Sub
 
@@ -168,16 +171,9 @@
 	Private Sub tbGain_ValueChanged(sender As Object, e As EventArgs) Handles tbGain.ValueChanged
 		sim.Gain = tbGain.Value / factorGain
 		UpdateTextSimulation()
-		If sim.Gain = 0 Then
-			lblGain.BackColor = Color.Red
-		Else
-			lblGain.BackColor = SystemColors.Control
-		End If
 	End Sub
 
 	Private Sub chkPIDController_CheckedChanged(sender As Object, e As EventArgs) Handles chkPIDController.CheckedChanged
-		tmrController.Enabled = chkPIDController.Checked
-		If chkPIDController.Checked Then pid.Reset(True, True, True)
 	End Sub
 
 	Private Sub frmPIDMain_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
@@ -185,6 +181,18 @@
 	End Sub
 
 	Private Sub chkAntiWindUp_CheckedChanged(sender As Object, e As EventArgs) Handles chkAntiWindUp.CheckedChanged
+	End Sub
+
+	Private Sub chkPIDController_Click(sender As Object, e As EventArgs) Handles chkPIDController.Click
+		tmrController.Enabled = chkPIDController.Checked
+		gbParameterPID.Enabled = chkPIDController.Checked
+	End Sub
+
+	Private Sub chkAntiWindUp_Click(sender As Object, e As EventArgs) Handles chkAntiWindUp.Click
 		pid.AntiWindUpEnable = chkAntiWindUp.Checked
+	End Sub
+
+	Private Sub cmdResetPID_Click(sender As Object, e As EventArgs) Handles cmdResetPID.Click
+		pid.Reset(True, True, True)
 	End Sub
 End Class
