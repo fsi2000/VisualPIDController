@@ -1,34 +1,21 @@
 ﻿Public Class Simulator
-	Public Property ProcessValue As Double
-	Public Property ControlValue As Double
+	Public Property ProcessValue As Double = 0.0
+	Public Property ControlValue As Double = 0.0
 
-	Public Property Gain As Double
+	Public Property Gain As Double = 1.0
 
-	Public Property Interval As Double
+	Public Property Interval As Double = 1
 
-	Public Property ProcessValueLimitEnable As Boolean
-	Public Property ProcessValueMin As Double
-	Public Property ProcessValueMax As Double
+	Public Property ProcessValueLimitEnable As Boolean = False
+	Public Property ProcessValueMin As Double = -100.0
+	Public Property ProcessValueMax As Double = +100.0
 
-	Public Property ThresholdEnable As Boolean
-	Public Property ThresholdValue As Double
+	Public Property ThresholdEnable As Boolean = False
+	Public Property ThresholdValue As Double = 0.0
 
 	Private swt As StopwatchTimer
 
 	Public Sub New()
-		Me.ProcessValue = 0.0
-		Me.ControlValue = 0.0
-
-		Me.Interval = 1.0
-		Me.Gain = 1.0
-
-		Me.ProcessValueLimitEnable = False
-		Me.ProcessValueMin = -128.0
-		Me.ProcessValueMax = +128.0
-
-		Me.ThresholdEnable = False
-		Me.ThresholdValue = 0.0
-
 		Me.swt = New StopwatchTimer(StopwatchTimer.TimerResolution.ms)
 	End Sub
 
